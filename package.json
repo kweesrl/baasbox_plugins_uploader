@@ -1,0 +1,9 @@
+{
+  "name": "bb-plugin-upload",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-folder-list": "^1.1.0",
+    "lodash": "^3.0.0"
+  }
+}
