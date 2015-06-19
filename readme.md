@@ -1,3 +1,18 @@
+INTRO
+
+Create, update, delete your BB plugins with grunt.
+
+
+HOW TO..
+
+0. fill Config.sources.js
+1. rename and fill Config.rest.sample.js
+2. fill libsToDeploy with your libs in the right order
+3. grunt list 
+
+
+TASK
+
 //==>> grunt deploy
 deploy a specific build on server
 
