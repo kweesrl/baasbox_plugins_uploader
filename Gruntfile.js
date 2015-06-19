@@ -242,7 +242,40 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('delete', 'Running "delete" task', function() {
 		var done = this.async();
-		// TODO
+		var bbRest = require("./BB.rest.js");
+		var bbSrc = require("./BB.sources.js");
+		var build = grunt.option('build') ? grunt.option('build') : '';
+		var target = grunt.option('target') ? grunt.option('target').toUpperCase() : 'DEV';
+
+		var toDelete = [];
+		var fileToIgnore= grunt.config.get('filesToDeploy').toIgnore();
+
+
+		// 1 ottengo la lista dei file attualmente esistenti
+		bbRest.listPluginCode(function(res) {
+			var currentFiles = res.data;
+			// se il target è DEV controllo che che l'inizio del nome sia un suffisso valido e non sia un file da ignorare
+			// se il target non è DEV controllo che che l'inizio del nome sia il suffisso della build e non sia un file da ignorare
+			currentFiles.forEach(function(itemDeployed, index, arr){
+				if(
+					(
+						(build == '' || target == 'DEV') && ( (itemDeployed.name.split('.')[0] == grunt.config.get('endpointPrefix') ) || ( itemDeployed.name.split('.')[0] == grunt.config.get('libPrefix') ) ) && (fileToIgnore.indexOf(itemDeployed.name) == -1)
+					) || (
+						(build != '' && target != 'DEV') && ( itemDeployed.name.split('.')[0] == "build"+build ) && fileToIgnore.indexOf(itemDeployed.name) == -1
+					)
+				){
+					// 2 popolo l'array dei file da eliminare
+					toDelete.push(itemDeployed.name);
+				};
+			});
+			console.log(toDelete);
+			// 3 elimino i file
+			bbRest.deleteList(toDelete, function(){
+				done(true);
+			});
+		});
+
+
 	});
 
 };

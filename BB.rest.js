@@ -23,6 +23,8 @@ var sendCodeFx = function(codeObj, verb, setAsActive, cb){
 		headers: headers
 	};
 
+
+
 	var req = http.request(options, function(res) {
 		console.log('STATUS: ' + res.statusCode);
 		var str = ''
@@ -42,11 +44,11 @@ var sendCodeFx = function(codeObj, verb, setAsActive, cb){
 	req.end();
 };
 
-/*
-var deleteCodeFx = function(name, cb){
+
+var doDeleteCodeFx = function(name, cb){
 
 	var headers = {
-		'content-type': 'application/json',
+		'content-type': 'application/x-www-form-urlencoded',
 		'X-BB-SESSION': grunt.config.get(target).session
 	};
 
@@ -62,7 +64,6 @@ var deleteCodeFx = function(name, cb){
 
 	var req = http.request(options, function(res) {
 		console.log('STATUS: ' + res.statusCode);
-		console.log('HEADERS: ' + JSON.stringify(res.headers));
 		var str = ''
 		res.on('data', function (chunk) {
 			str += chunk;
@@ -70,16 +71,14 @@ var deleteCodeFx = function(name, cb){
 		res.on('end', function () {
 			cb(str);
 		});
-
 	});
 
-	req.write();
 	req.on('error', function (err) {
 		console.log('ERROR: ' + err.message);
 	});
 	req.end();
 };
-*/
+
 
 var getCodeFx = function(pluginName, cb){
 
@@ -139,8 +138,27 @@ var updateCodeFx = function(name, code, setAsActive, cb){
 	}, 'PUT', false, cb);
 };
 
-var deleteCodeFx = function(name, setAsActive, cb){
-	sendCodeFx(name, 'DELETE', false, cb);
+var deleteCodeFx = function(name, cb){
+	doDeleteCodeFx(name, cb);
+};
+
+var deleteListFx = function(libsToSend, cb){
+	console.log("deleting: "+libsToSend.length);
+	if(!libsToSend.length){cb();return;}
+	//libsToSend = libsToSend.reverse();
+	var processNext = function(nextStep){
+		console.log("go to delete: "+libsToSend[nextStep]);
+		deleteCodeFx(libsToSend[nextStep], function(res){
+			nextStep++;
+			if(libsToSend.length <= nextStep){
+				cb();
+				return;
+			}else{
+				processNext(nextStep);
+			}
+		});
+	};
+	processNext(0);
 };
 
 var createListFx = function(libsToSend, cb){
@@ -172,25 +190,6 @@ var updateListFx = function(libsToSend, cb){
 	var processNext = function(nextStep){
 		console.log("go to update: "+libsToSend[nextStep].nameNewOnBB);
 		updateCodeFx(libsToSend[nextStep].nameNewOnBB, libsToSend[nextStep].code, true, function(res){
-			nextStep++;
-			if(libsToSend.length <= nextStep){
-				cb();
-				return;
-			}else{
-				processNext(nextStep);
-			}
-		});
-	};
-	processNext(0);
-};
-
-var deleteListFx = function(libsToSend, cb){
-	console.log("deleting: "+libsToSend.length);
-	if(!libsToSend.length){cb();return;}
-	//libsToSend = libsToSend.reverse();
-	var processNext = function(nextStep){
-		console.log("go to delete: "+libsToSend[nextStep].nameNewOnBB);
-		deleteCodeFx(libsToSend[nextStep].nameNewOnBB, function(res){
 			nextStep++;
 			if(libsToSend.length <= nextStep){
 				cb();

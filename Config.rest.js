@@ -1,13 +1,15 @@
 module.exports = {
+
 	DEV: {
 		host: '85.94.217.118',
 		session: '728277e7-97ff-4f94-8226-6a9bbfa5dd6d',
 		port: 9000,
 		protocol: 'http'
 	},
+
 	TEST: {
 		host: '0.0.0.0',
-		session: '4f23971d-fdfd-4c04-a119-046868a1adce',
+		session: '17831788-66a9-4573-b588-a36025cc9b44',
 		port: 9000,
 		protocol: 'http'
 	},
@@ -18,7 +20,7 @@ module.exports = {
 		port: 9000,
 		protocol: 'http'
 	},
-	 */
+	*/
 	PROD: {
 		host: 'kweeapp.it',
 		session: '',
