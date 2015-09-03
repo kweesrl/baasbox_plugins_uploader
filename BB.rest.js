@@ -1,7 +1,10 @@
 var grunt = require('grunt');
 var target = grunt.option('target') ? grunt.option('target').toUpperCase() : 'DEV';
 var http = require('http');
-var https = require('https');
+// se target prod devo usare https
+if(target == 'PROD'){
+	http = require('https');
+};
 
 var sendCodeFx = function(codeObj, verb, setAsActive, cb){
 

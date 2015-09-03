@@ -81,7 +81,8 @@ module.exports = function(grunt) {
 										grunt.log.debug(itemToUpload.nameNewOnBB);
 										grunt.log.debug(itemDeployed.name);
 
-										if(itemToUpload.nameNewOnBB == itemDeployed.name){
+										if(1 == 1){
+										// if(itemToUpload.nameNewOnBB == itemDeployed.name){
 											idsToSend.updated.push(itemToUpload.nameNewOnBB);
 											epToSend.updated.push(itemToUpload);
 											itemToUlploadIndex = indexToUpload;
@@ -164,7 +165,7 @@ module.exports = function(grunt) {
 							libsToUploadWithCode.forEach(function(itemToUpload, indexToUpload, arrToUpload){
 
 
-
+								
 								if(itemToUpload.nameNewOnBB == itemDeployed.name){
 									idsToSend.updated.push(itemToUpload.nameNewOnBB);
 									libsToSend.updated.push(itemToUpload);
@@ -215,7 +216,9 @@ module.exports = function(grunt) {
 		var fs = require('fs');
 		var res = [];
 		fs.readdir(grunt.config.get('pluginDir'), function(err, files) {
-			if (err) return;
+			if(err) {
+				return console.log(err);
+			}
 			var untill = files.length-1;
 			files.forEach(function(f,index) {
 				var fArr = f.split('.');

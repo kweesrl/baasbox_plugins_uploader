@@ -64,7 +64,7 @@ module.exports = {
 						name: item,
 						nameLocal: [endpointPrefix, item].join('.'),
 						nameOnBB: [endpointPrefix, item].join('.'),
-						nameNewOnBB: [endpointPrefix, item].join('.'),
+						nameNewOnBB: item,
 						file: [endpointPrefix, item, 'js'].join('.')
 					});
 				}else{
@@ -72,7 +72,7 @@ module.exports = {
 						name: item,
 						nameLocal: [endpointPrefix, item].join('.'),
 						nameOnBB: ["build"+build, endpointPrefix, item].join('.'),
-						nameNewOnBB: ["build"+build, endpointPrefix, item].join('.'),
+						nameNewOnBB: ["build"+build, item].join('.'),
 						file: [endpointPrefix, item, 'js'].join('.')
 					});
 				}
